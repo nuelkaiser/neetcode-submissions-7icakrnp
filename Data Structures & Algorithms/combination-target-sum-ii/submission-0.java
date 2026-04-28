@@ -1,29 +1,29 @@
-public class Solution {
-    private List<List<Integer>> res;
+class Solution {
+  List<List<Integer>> res;
+  public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+    res = new ArrayList<>();
+    Arrays.sort(candidates);
+    dfs(candidates, target, new ArrayList<>(), 0, 0);
+    return res;
+  }
 
-    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        res = new ArrayList<>();
-        Arrays.sort(candidates);
-        dfs(candidates, target, 0, new ArrayList<>(), 0);
-        return res;
+  public void dfs(int[] candidates, int target, List<Integer> sum, int total, int i) {
+    if (total == target) {
+      res.add(new ArrayList<>(sum));
+      return;
     }
 
-    private void dfs(int[] candidates, int target, int i, List<Integer> cur, int total) {
-        if (total == target) {
-            res.add(new ArrayList<>(cur));
-            return;
-        }
-        if (total > target || i == candidates.length) {
-            return;
-        }
-
-        cur.add(candidates[i]);
-        dfs(candidates, target, i + 1, cur, total + candidates[i]);
-        cur.remove(cur.size() - 1);
-
-        while (i + 1 < candidates.length && candidates[i] == candidates[i + 1]) {
-            i++;
-        }
-        dfs(candidates, target, i + 1, cur, total);
+    if (i == candidates.length || total > target) {
+      return;
     }
+
+    sum.add(candidates[i]);
+    dfs(candidates, target, sum, total + candidates[i], i + 1);
+    sum.remove(sum.size() - 1);
+
+    while (i + 1 < candidates.length && candidates[i] == candidates[i + 1]) {
+      i++;
+    }
+    dfs(candidates, target, sum, total, i + 1);
+  }
 }
