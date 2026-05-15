@@ -1,29 +1,31 @@
 class Solution {
-  List<List<Integer>> res;
-  public List<List<Integer>> subsetsWithDup(int[] nums) {
-    res = new ArrayList<>();
-    List<Integer> set = new ArrayList<>();
+    List<List<Integer>> res;
+    List<Integer> set;
 
-    Arrays.sort(nums);
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        res = new ArrayList<>();
+        set = new ArrayList<>();
 
-    dfs(nums, set, 0);
+        Arrays.sort(nums);
+        
+        backTrack(nums, 0);
 
-    return res;
-  }
-
-  public void dfs(int[] nums, List<Integer> set, int i) {
-    if (i == nums.length) {
-      res.add(new ArrayList<>(set));
-      return;
+        return res;
     }
 
-    set.add(nums[i]);
-    dfs(nums, set, i + 1);
-    set.remove(set.size() - 1);
+    public void backTrack(int[] nums, int i) {
+        if (i >= nums.length) {
+            res.add(new ArrayList<>(set));
+            return;
+        }
 
-    while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
-      i++;
+        set.add(nums[i]);
+        backTrack(nums, i + 1);
+        set.remove(set.size() - 1);
+
+        while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
+            i++;
+        }
+        backTrack(nums, i + 1);
     }
-    dfs(nums, set, i + 1);
-  }
 }
